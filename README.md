@@ -7,7 +7,7 @@ It's written for any agent that loads skills. So far it has been tried in Claude
 ## Install
 
 ```bash
-npx skills add trondrensel/svg-product-film
+npx skills add renzel/svg-product-film
 ```
 
 The [Skills CLI](https://github.com/vercel-labs/skills) asks which agents to install it for. Add `-g` to install it for all your projects, not just this one.
