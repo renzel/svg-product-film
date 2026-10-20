@@ -1,0 +1,29 @@
+{
+  "skill_name": "svg-product-film",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In this folder are SVG exports of my app's screens from Figma, with live text and layer names. My product is Planloom, project management for small teams. Turn the screens into a Product film of 20 to 45 seconds: 1920x1080 at 60 fps, as an MP4 with sound. Show what the app does screen by screen, add a few short headlines, and end on the product's name. Animate the real layers found by their names so after a design change I can export again and render again with one command. Make the sound in code from the same timeline. Draw every frame from its time stamp in a headless browser and encode it with ffmpeg.",
+      "expected_output": "An MP4 at exactly 1920x1080/60fps in the 20-45s range with a synthesised audio track; a single re-run command; layers targeted by their Figma names rather than coordinates; the source SVGs byte-identical afterwards; frames verified reproducible.",
+      "files": ["three Figma SVG exports with live <text> and named layers"]
+    },
+    {
+      "id": 2,
+      "prompt": "Here are four screens exported from Sketch. Can you make a 30 second launch video out of them? I want it to feel premium - not just screenshots fading into each other.",
+      "expected_output": "Checks the export first and reports what it found. Builds a film using camera and layer moves (3D tilt, vector zoom, lifting a layer out of its window) rather than crossfades, with sound. Asks before installing anything.",
+      "files": ["four Sketch SVG exports"]
+    },
+    {
+      "id": 3,
+      "prompt": "I exported our dashboard from Figma but I ticked 'outline text'. Can you still animate it into a product video?",
+      "expected_output": "Detects that the text is outlined into paths, says so before starting, explains which beats become impossible (typing, counters, streamed text), and asks for a re-export with live text rather than quietly building a degraded film.",
+      "files": ["one SVG export with text converted to paths"]
+    },
+    {
+      "id": 4,
+      "prompt": "The film you made last month looks wrong now - I redesigned the board screen and re-exported it. Everything else is the same.",
+      "expected_output": "Re-runs the existing pipeline rather than rebuilding it, surfaces any layer names that no longer resolve, and either restores them or updates the name map. Does not hard-code around the problem.",
+      "files": ["an existing film project plus a changed SVG export"]
+    }
+  ]
+}
