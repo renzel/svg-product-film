@@ -119,9 +119,6 @@ return lp * Math.exp(-tt * 11) * 0.34 * gain;
 **Bell** — inharmonic partials at 1, 2.01, 2.99, 4.18, 5.43 with decays that get
 faster for higher partials. Good for logo stings.
 
-**Riser** — noise through a bandpass whose cutoff climbs with `k²`, amplitude also
-on `k²`. Put one in the beat before each new movement.
-
 ---
 
 ## Arranging to the picture
@@ -149,21 +146,30 @@ Two arrangement decisions do most of the work:
   drums. Am–F–C–G through the body, C major under the logo.
 
 The big visual beats rarely land on bar lines, and forcing the choreography onto
-the grid usually hurts the picture. Keep the groove on the grid and place one-shot
-accents (whoosh, sting, bell) at the exact visual times from `CUES`. The ear
-accepts that as intentional.
+the grid usually hurts the picture. Keep the groove on the grid and place the
+interface sounds and the end-card bell at the exact visual times from `CUES`. The
+ear accepts that as intentional.
+
+Scene changes get no accent of their own. A whoosh, riser or sweep between scenes
+sounds like an effect laid over a demo, and it is the first thing a viewer
+notices as cheap. Mark the change in the score instead: let the arrangement
+change at the nearest bar line, such as the hats dropping out or the bass moving.
 
 ---
 
 ## Interface sounds
+
+Sound only what the user would hear: keys, presses, a card picked up and put down,
+a notification arriving. The camera is silent, and so are the scene changes.
 
 Derive these from the same cue array the animation reads, so retiming a beat moves
 the picture and its sound together:
 
 ```js
 export const CUES = [
-  { t: T.openIn[0] + 0.05, type: 'whoosh', dur: 1.10, dir: 'in' },
-  { t: T.cardLift[0],      type: 'lift',   dur: 1.00 },
+  { t: T.addTask,          type: 'click' },
+  { t: T.cardDrag[0],      type: 'pick' },
+  { t: T.cardDrag[1],      type: 'place' },
   ...typeTicks(T.aiType, AI_QUERY),
   { t: T.aiSend, type: 'click', hard: true },
 ];
@@ -184,11 +190,12 @@ A sound per type, dispatched by name:
 | `click` | 1950 Hz + 2840 Hz sines, exp decay, small noise transient | 90 ms |
 | `pop` | sine falling 760→320 Hz | 130 ms |
 | `tick` | noise + 3.4 kHz, very short | 50 ms |
-| `whoosh` | noise, bandpass sweeping on `dir` (`in` up, `out` down, `turn` arcs), stereo-widened | 0.9–1.3 s |
-| `lift` | sine 240 Hz × 3.6^k with 5.5 Hz vibrato, plus air noise, panning outward | 0.9 s |
+| `pick` | soft 1.2 kHz click with a breath of noise, quieter than `click` | 60 ms |
 | `place` | 150→92 Hz thud + click | 400 ms |
-| `swell` | noise swell, `down: true` to reverse | 0.6 s |
 | `bell` | inharmonic partials | 2 s |
+
+There is deliberately no `whoosh`, `riser` or `swell`: nothing in a real app makes
+those sounds.
 
 Seed the per-keystroke jitter from the character index. Each keystroke sounds
 slightly different from its neighbours, which is what real typing does — and it is

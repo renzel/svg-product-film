@@ -38,6 +38,15 @@ export async function launch({ port = 9333, width, height } = {}) {
   ];
   const proc = spawn(CHROME, args, { stdio: ['ignore', 'ignore', 'ignore'] });
 
+  // Never leave a headless Chrome behind: a script that throws, or forgets
+  // close(), still takes its browser with it when Node exits.
+  const reap = () => {
+    try { proc.kill('SIGKILL'); } catch {}
+    try { rmSync(profile, { recursive: true, force: true }); } catch {}
+  };
+  process.once('exit', reap);
+  for (const sig of ['SIGINT', 'SIGTERM']) process.once(sig, () => process.exit(130));
+
   let wsUrl = null;
   for (let i = 0; i < 100; i++) {
     try {

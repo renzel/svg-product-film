@@ -11,6 +11,7 @@ and an unclipped `.lifts` sibling.
 - [The camera (zoom that stays sharp)](#the-camera)
 - [Tilting a window in 3D](#tilting-a-window-in-3d)
 - [Lifting a layer out of its window](#lifting-a-layer-out-of-its-window)
+- [A pointer that clicks and drags](#a-pointer-that-clicks-and-drags)
 - [Streaming text in](#streaming-text-in)
 - [Reveal wipes](#reveal-wipes)
 - [Counters](#counters)
@@ -100,6 +101,9 @@ cam = camMix(cam, HOME,   win(t, T.statsOut));
 cam = camMix(cam, DETAIL, win(t, T.detailZoom));
 ```
 
+**Every camera is for a step in the story.** Frame where the user is acting, or the
+result they are waiting for. A push-in with no action under it reads as random.
+
 **Build cameras from layer boxes, and clamp to the artboard** so a push-in near an
 edge never reveals blank canvas:
 
@@ -161,6 +165,9 @@ lot of DOM, and hiding the off-screen ones roughly doubles render throughput.
 
 ## Lifting a layer out of its window
 
+Lift what the user moves: a card being dragged to its new column, a dialog brought
+forward. A layer that floats up for no reason reads as decoration.
+
 The illusion needs the clone to live *in the window's 3D space* but *outside the
 clipped viewport*. Then `translateZ` genuinely carries it off the surface, through
 the window's edge, with correct perspective — not a sprite sliding over a picture.
@@ -220,6 +227,52 @@ Notes that matter:
   real elevation; a single shadow reads as a sticker.
 - A tall panel lifting near the frame edge will crop. Pull the camera back *before*
   the lift rather than fighting it with offsets.
+
+---
+
+## A pointer that clicks and drags
+
+The pointer is what turns a moving UI into someone using it. Draw it in the
+screen's own user space, in the same unclipped `.lifts` layer as a lifted clone, so
+it tilts with the window and stays on its target while the camera moves:
+
+```js
+const ARROW = 'M0 0 L0 17 L4.6 13 L7.6 20.2 L10.4 19 L7.4 12 L13 12 Z';
+
+function pointer(screen, x, y, press = 0, show = 1) {   // x, y in the SVG's user space
+  const st = S[screen];
+  if (!st.ptr) {
+    st.ptr = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    st.ptr.setAttribute('class', 'liftsvg');
+    st.ptr.innerHTML = `<g><path d="${ARROW}" fill="#fff" stroke="#0b0d1a"
+      stroke-width="1.3" stroke-linejoin="round"/></g>`;
+    document.querySelector('#win-' + screen + ' .lifts').appendChild(st.ptr);
+  }
+  st.ptr.style.display = show > 0.001 ? '' : 'none';
+  st.ptr.style.opacity = show;
+  st.ptr.setAttribute('viewBox', st.curVB);            // track the live camera
+  const unit = +st.curVB.split(' ')[2] / 1632;         // user units per CSS pixel
+  st.ptr.firstChild.setAttribute('transform',
+    `translate(${x} ${y}) scale(${unit * 1.5 * (1 - 0.12 * press)})`);
+}
+```
+
+Aim it at a control's box, a little right of and below its centre, the way a hand
+rests: `const b = bbox('board', 'New Task'); pointer('board', b.x + b.w * 0.6, b.y + b.h * 0.6, press);`
+
+- **Same size at any zoom.** Scaling by the visible width keeps the arrow about
+  30 px tall whether the camera is at 1× or 4×.
+- **Arrive before the press.** Ease between targets with `E.cubic` over 0.5–0.8 s,
+  on a slight arc, and land 0.2–0.3 s before the click, so the eye gets there first.
+- **A press is two things at once.** The arrow shrinks by about 12% for 120 ms, and
+  the control itself answers on the same frames: dip its opacity to about 0.8, or
+  swap its fill a shade darker. Put a `click` cue there.
+- **A drag is a lift that follows the pointer.** Lift the card as the press goes
+  down, move the clone and the pointer together, and set the card down in its new
+  column on release, with `pick` and `place` cues. Give the pointer a little more
+  `translateZ` than the card, so it stays on top.
+- **Hide it when nobody is acting:** during a window's fly-in or fly-out, and on the
+  end card.
 
 ---
 

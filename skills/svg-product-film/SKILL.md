@@ -125,28 +125,63 @@ window.__missing       // array of layer names that did not resolve
 
 Read **`references/moves.md`** for working code on: scoped layer lookup, measuring
 a layer in its root's user space, the viewBox camera, 3D window tilts, lifting a
-clone out of a clipped viewport, streaming text with a measured caret, clipPath
-reveal wipes, counters that read their target from the SVG, and easing.
+clone out of a clipped viewport, a pointer that clicks and drags, streaming text
+with a measured caret, clipPath reveal wipes, counters that read their target from
+the SVG, and easing.
 
-Structure the film in acts of roughly 4–10 seconds with a short headline each, and
-give every screen one thing it is *for*. Twenty to forty-five seconds is the useful
-range; past that a product film stops being watched.
+### Write the story before the code
 
-Two judgements that decide whether it looks professional:
+A product film shows someone using the product, not a tour of its screens.
+Zooming in on one region after another and highlighting things nobody is using
+reads as random, however smooth the moves are. So before any choreography, write
+the film as one person doing one job:
 
+1. **Who and what.** One user and one goal the product helps with: "Ada gets the
+   launch back on track".
+2. **The steps.** Four to seven things they do in the app, each an action with a
+   visible result. They add a task and it appears in its column, drag it to In
+   Progress, ask the assistant what's blocking the launch and the answer streams
+   in, press Auto Schedule and the bars move.
+3. **One thread.** The same task, project or person runs through every screen:
+   created on the board, scheduled on the timeline, sitting on the calendar. That
+   is what makes three exports read as one product.
+
+Find the verbs in the export itself. Layers named like controls (`+ Add task`,
+`New Task`, `Auto Schedule`, a search or chat input, a Send button) are what the
+user can do, and items that appear on more than one screen are the thread. If the
+screens have nothing to press, tell the user the film will be a tour, and why.
+
+Give each step one act of roughly 4–10 seconds, with a short headline that names
+what the user gets rather than the feature: "See what's blocking the launch", not
+"AI Assistant". Twenty to forty-five seconds is the useful range; past that a
+product film stops being watched.
+
+Three judgements that decide whether it looks professional:
+
+- **Every beat is an action or the answer to one.** Show the pointer reach the
+  control and press it, or the field take focus before the typing, then the app's
+  response. If you cannot say what the user just did, cut the beat.
+- **The camera follows the user.** Push in to where they are acting, or to the
+  result they are waiting for, and pull back when the result spans the screen.
+  Never zoom in just to point at something.
 - **Let each screen arrive already populated.** Building the UI from nothing
   reads as a broken app for the first seconds. Stagger content in during the
-  window's fly-in, then use later beats to emphasise rather than construct.
-- **Check a zoom target is tight enough to read.** `baseW / (box.w × 1.26)` under
-  about 2× is not a move anyone will notice. Pick a smaller target.
+  window's fly-in, then let the user's actions change it.
+
+And one check before committing to a zoom: `baseW / (box.w × 1.26)` under about 2×
+is not a move anyone will notice. Pick a smaller target.
 
 ## 5. Sound
 
 Read **`references/audio.md`**. `audio.mjs` imports the same `timeline.mjs` and
 writes a 48 kHz 16-bit stereo WAV: a short score (pick a tempo with a round bar —
-120 BPM gives a 2 s bar), plus interface sounds dispatched from the cue array —
-a tick per keystroke, clicks on taps, whooshes on transitions, a rising sweep on
-each lift, a bell on the logo.
+120 BPM gives a 2 s bar), plus interface sounds dispatched from the cue array for
+what the user does — a tick per keystroke, a click on every press, a soft pick-up
+and put-down when a card is dragged — and a bell on the logo.
+
+Camera moves and scene changes get no sound of their own: no whooshes, risers or
+sweeps. Between scenes they sound like effects laid over a demo. Let the score
+mark the change instead, with the arrangement changing at the nearest bar line.
 
 You cannot hear what you wrote, so measure it:
 
@@ -199,7 +234,8 @@ ffmpeg -y -f concat -safe 0 -i /tmp/cs.txt \
 ```
 
 Looking at 26 frames together catches dead air, repeated framings and empty
-screens that no single still reveals. Only then render in full.
+screens that no single still reveals. Read it as a story too: in every frame you
+should be able to say what the user is doing. Only then render in full.
 
 ## Surviving a redesign
 
