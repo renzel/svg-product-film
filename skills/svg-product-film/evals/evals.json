@@ -28,7 +28,7 @@
     {
       "id": 5,
       "prompt": "Make a product film with sound from the SVG exports in this folder. My product is Planloom, project management for small teams.",
-      "expected_output": "Picks up this skill from the plain request, without a slash command. Writes the film as one user doing one job before choreographing: each beat is an action on a real control (press, type, drag) with a visible result, the same task runs through every screen, and the camera only goes where the user acts or the result appears. Interface sounds follow the user's actions, and nothing sounds between scenes.",
+      "expected_output": "Picks up this skill from the plain request, without a slash command. Writes the film as one user doing one job before choreographing: each beat is an action on a real control (press, type, drag) with a visible result, the same task runs through every screen, and the camera only goes where the user acts or the result appears. Interface sounds follow the user's actions, and nothing sounds between scenes. Quick and upbeat, like a launch demo on X: 20–30 s, two to four seconds per step, a hook in the first second, a major-key groove from the first bar, and headlines that tell the story with the sound off.",
       "files": ["three Figma SVG exports with live <text> and named layers"]
     }
   ]

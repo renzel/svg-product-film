@@ -1,6 +1,6 @@
 ---
 name: svg-product-film
-description: Build a product film from Figma or Sketch SVG exports with live text and named layers — drawn frame by frame from timestamps in a headless browser, encoded with ffmpeg, with a score and interface sounds synthesised in code. Use when someone wants a product video, launch film, demo reel, feature tour, or animated walkthrough built from app screens rather than a screen recording; when the render must be reproducible so a design re-export plus one command rebuilds the film; or when they want motion a screen capture cannot produce — lifting a layer out of its window, tilting a window in 3D, zooming into detail that stays sharp, text that types itself. Also covers checking whether an SVG export is animatable at all.
+description: Build a product film from Figma or Sketch SVG exports with live text and named layers — drawn frame by frame from timestamps in a headless browser, encoded with ffmpeg, with a score and interface sounds synthesised in code. By default it makes a quick, upbeat demo of the kind launched on X (Twitter). Use when someone wants a product video, launch film, demo reel, X or Twitter demo, feature tour, or animated walkthrough built from app screens rather than a screen recording; when the render must be reproducible so a design re-export plus one command rebuilds the film; or when they want motion a screen capture cannot produce — lifting a layer out of its window, tilting a window in 3D, zooming into detail that stays sharp, text that types itself. Also covers checking whether an SVG export is animatable at all.
 ---
 
 # Product films from SVG design exports
@@ -151,10 +151,25 @@ Find the verbs in the export itself. Layers named like controls (`+ Add task`,
 user can do, and items that appear on more than one screen are the thread. If the
 screens have nothing to press, tell the user the film will be a tour, and why.
 
-Give each step one act of roughly 4–10 seconds, with a short headline that names
+Give each step one act of two to four seconds, with a short headline that names
 what the user gets rather than the feature: "See what's blocking the launch", not
-"AI Assistant". Twenty to forty-five seconds is the useful range; past that a
-product film stops being watched.
+"AI Assistant".
+
+### Quick and upbeat, like a launch demo on X
+
+Unless the user asks for something else, make the kind of product demo people post
+on X (Twitter): quick, upbeat, and over before anyone scrolls past.
+
+- **Hook in the first second.** Open on the product already in use, mid-action, not
+  on an empty window flying in.
+- **Twenty to thirty seconds in all:** two to four seconds per step, and an end
+  card of two to three. Past forty-five, a product film stops being watched.
+- **Snappy motion.** Arrivals and camera moves of 0.4–0.8 s, settling quickly
+  rather than gliding, with cuts and big moves on the beat of the score.
+- **Upbeat sound:** a major-key groove from the first bar at about 128 BPM, with
+  no slow intro (`references/audio.md`).
+- **It reads with the sound off.** X plays videos muted until someone taps them,
+  so headlines of two to five words have to carry the story on their own.
 
 Three judgements that decide whether it looks professional:
 
@@ -174,8 +189,9 @@ is not a move anyone will notice. Pick a smaller target.
 ## 5. Sound
 
 Read **`references/audio.md`**. `audio.mjs` imports the same `timeline.mjs` and
-writes a 48 kHz 16-bit stereo WAV: a short score (pick a tempo with a round bar —
-120 BPM gives a 2 s bar), plus interface sounds dispatched from the cue array for
+writes a 48 kHz 16-bit stereo WAV: a short, upbeat score (a major key, about
+128 BPM, the groove in from the first bar), plus interface sounds dispatched from
+the cue array for
 what the user does — a tick per keystroke, a click on every press, a soft pick-up
 and put-down when a card is dragged — and a bell on the logo.
 

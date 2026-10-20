@@ -149,8 +149,8 @@ el.style.transform =
 Three things that make it look intentional rather than like a slide transition:
 
 - **Settle, don't hold.** Arrive at `rotateY 42°, rotateX 16°, translateZ -1150` and
-  ease to flat over ~2.5 s with a quintic. A tilt held flat for seconds reads as a
-  static mockup.
+  ease to flat over about a second with a quintic. A tilt held flat for seconds reads
+  as a static mockup, and a two-second glide reads as slow in a quick demo.
 - **Keep a drift.** After settling, add `Math.sin((t - t0) * 0.42) * 0.7` degrees.
   A perfectly still plate looks like a dead frame; under a degree of motion reads
   as alive without being noticed.
@@ -262,8 +262,8 @@ rests: `const b = bbox('board', 'New Task'); pointer('board', b.x + b.w * 0.6, b
 
 - **Same size at any zoom.** Scaling by the visible width keeps the arrow about
   30 px tall whether the camera is at 1× or 4×.
-- **Arrive before the press.** Ease between targets with `E.cubic` over 0.5–0.8 s,
-  on a slight arc, and land 0.2–0.3 s before the click, so the eye gets there first.
+- **Arrive before the press.** Ease between targets with `E.cubic` over 0.35–0.5 s,
+  on a slight arc, and land 0.15–0.2 s before the click, so the eye gets there first.
 - **A press is two things at once.** The arrow shrinks by about 12% for 120 ms, and
   the control itself answers on the same frames: dip its opacity to about 0.8, or
   swap its fill a shade darker. Put a `click` cue there.

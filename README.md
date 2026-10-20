@@ -1,6 +1,6 @@
 # svg-product-film
 
-An agent skill that turns your app's SVG design exports into a product film with sound. Every frame is drawn from its time stamp in a headless browser and encoded with ffmpeg, and the score and interface sounds are made in code from the same timeline. Change the design, export again, run one command, and the film follows.
+An agent skill that turns your app's SVG design exports into a product film with sound: by default, a quick, upbeat demo of someone using your product, of the kind launched on X. Every frame is drawn from its time stamp in a headless browser and encoded with ffmpeg, and the score and interface sounds are made in code from the same timeline. Change the design, export again, run one command, and the film follows.
 
 It's written for any agent that loads skills. So far it has been tried in Claude Code.
 

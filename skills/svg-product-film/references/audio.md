@@ -56,9 +56,11 @@ function rng(seed) {
 }
 ```
 
-Pick a tempo whose bar is a round number of seconds. 120 BPM gives a 0.5 s beat
-and a 2 s bar, so scene boundaries and bar lines can be reasoned about in your
-head. 42 s is exactly 21 bars.
+Upbeat is the default: about 128 BPM in a major key, which gives a 0.469 s beat and
+a 1.875 s bar. Work in beats rather than seconds. Export `BEAT` and `BAR` from
+`timeline.mjs` and put the scene boundaries on them, so the cuts land on the beat
+at any tempo. A 26 s film at 128 BPM is about 14 bars. If the user wants something
+calmer, 120 BPM gives a round 2 s bar.
 
 ---
 
@@ -128,22 +130,23 @@ the arrangement in one place instead of scattering note calls:
 
 ```js
 function section(b) {
-  if (b < 2)  return { pad: .50, bass: .55, kick: 0,   hat: 0,   arp: 0   };
-  if (b < 4)  return { pad: .70, bass: .90, kick: 1,   hat: .70, arp: 0   };
-  if (b < 7)  return { pad: .80, bass: 1,   kick: 1,   hat: 1,   arp: .90 };
-  if (b < 9)  return { pad: .62, bass: .62, kick: .30, hat: .40, arp: .30 };  // make room
+  if (b < 1)  return { pad: .60, bass: .90, kick: 1,   hat: .80, arp: .60 };  // in from the first bar
+  if (b < 6)  return { pad: .70, bass: 1,   kick: 1,   hat: 1,   arp: .90 };
+  if (b < 8)  return { pad: .60, bass: .70, kick: .40, hat: .50, arp: .40 };  // make room
   ...
 }
 ```
 
-Two arrangement decisions do most of the work:
+Three arrangement decisions do most of the work:
 
+- **No slow intro.** A quick demo has no time for a pad to swell in. The groove is
+  there from the first frame, because the film's hook is too.
 - **Duck under the detail beats.** When the film is typing, or when a close-up
   wants attention, drop the groove 5–6 dB for those bars. The UI sounds then read
   as the subject rather than fighting the kick.
-- **Resolve at the end card.** If the body is in a minor key, move to the relative
-  major for the last two bars and let a bell ring over a sustained pad with no
-  drums. Am–F–C–G through the body, C major under the logo.
+- **Stay bright, and land on the logo.** C–G–Am–F through the body is the classic
+  upbeat loop. Land on C under the end card, with the bell over a held chord and
+  the drums out for the last bar.
 
 The big visual beats rarely land on bar lines, and forcing the choreography onto
 the grid usually hurts the picture. Keep the groove on the grid and place the
